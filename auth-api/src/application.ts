@@ -11,7 +11,13 @@ import path from 'path';
 import {MySequence} from './sequence';
 
 export {ApplicationConfig};
-
+import {AuthenticationComponent} from '@loopback/authentication';
+import {
+  JWTAuthenticationComponent,
+  SECURITY_SCHEME_SPEC,
+  UserServiceBindings,
+} from '@loopback/authentication-jwt';
+import {DbDataSource} from './datasources/db.datasource';
 export class AuthApiApplication extends BootMixin(
   ServiceMixin(RepositoryMixin(RestApplication)),
 ) {
@@ -23,6 +29,11 @@ export class AuthApiApplication extends BootMixin(
 
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
+
+    this.component(AuthenticationComponent);
+    this.component(JWTAuthenticationComponent);
+
+    this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
 
     // Customize @loopback/rest-explorer configuration here
     this.configure(RestExplorerBindings.COMPONENT).to({
