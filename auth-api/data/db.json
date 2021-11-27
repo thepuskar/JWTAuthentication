@@ -1,0 +1,16 @@
+{
+  "ids": {
+    "User": 6,
+    "UserCredentials": 3
+  },
+  "models": {
+    "User": {
+      "4": "{\"username\":\"testuser1\",\"email\":\"testuser1@abc.com\",\"id\":4}",
+      "5d319f3f-757b-4bc3-8096-f35b2405a8ae": "{\"id\":\"5d319f3f-757b-4bc3-8096-f35b2405a8ae\",\"username\":\"thepuskar\",\"email\":\"puskar@gmail.com\"}"
+    },
+    "UserCredentials": {
+      "1": "{\"password\":\"$2a$10$QrcA7GDOZ06TTXEBhuz87On8mcapb9qoU3rjWb7Z5pwBv7ZAbmXwa\",\"userId\":4,\"id\":1}",
+      "b5635548-e3f3-4461-a77c-c1b21e86a879": "{\"id\":\"b5635548-e3f3-4461-a77c-c1b21e86a879\",\"password\":\"$2a$10$dpmReAYU.6pHkBGUYS1kgeUbcUn6Y2inyE066xNynkGWh6avpUBYa\",\"userId\":\"5d319f3f-757b-4bc3-8096-f35b2405a8ae\"}"
+    }
+  }
+}
