@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasOne} from '@loopback/repository';
+import {UserCredential} from './user-credential.model';
 
 @model({name: 'users'})
 export class User extends Entity {
@@ -39,6 +40,8 @@ export class User extends Entity {
   })
   verificationToken?: string;
 
+  @hasOne(() => UserCredential)
+  userCredential: UserCredential;
   [prop: string]: any;
 
   constructor(data?: Partial<User>) {
