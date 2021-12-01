@@ -1,7 +1,9 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, hasOne, model, property} from '@loopback/repository';
 import {UserCredential} from './user-credential.model';
 
-@model({name: 'users'})
+@model({
+  name: 'users',
+})
 export class User extends Entity {
   @property({
     type: 'string',
@@ -10,6 +12,12 @@ export class User extends Entity {
     defaultFn: 'uuidv4',
   })
   id: string;
+
+  @property({
+    type: 'string',
+    name: 'realm',
+  })
+  realm?: string;
 
   @property({
     type: 'string',
@@ -40,8 +48,9 @@ export class User extends Entity {
   })
   verificationToken?: string;
 
-  @hasOne(() => UserCredential)
+  @hasOne(() => UserCredential, {keyTo: 'userId'})
   userCredential: UserCredential;
+
   [prop: string]: any;
 
   constructor(data?: Partial<User>) {

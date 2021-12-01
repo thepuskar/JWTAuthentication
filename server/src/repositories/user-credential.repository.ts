@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
-import {DefaultCrudRepository} from '@loopback/repository';
-import {DbDataSource} from '../datasources';
+import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {UserServiceBindings} from '@loopback/authentication-jwt';
 import {UserCredential, UserCredentialRelations} from '../models';
 
 export class UserCredentialRepository extends DefaultCrudRepository<
@@ -8,7 +8,10 @@ export class UserCredentialRepository extends DefaultCrudRepository<
   typeof UserCredential.prototype.id,
   UserCredentialRelations
 > {
-  constructor(@inject('datasources.db') dataSource: DbDataSource) {
+  constructor(
+    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`)
+    dataSource: juggler.DataSource,
+  ) {
     super(UserCredential, dataSource);
   }
 }

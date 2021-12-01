@@ -8,7 +8,7 @@ export class UserCredential extends Entity {
     generated: false,
     defaultFn: 'uuidv4',
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',
@@ -33,5 +33,5 @@ export class UserCredential extends Entity {
 
 export interface UserCredentialRelations {}
 
-export type UserCredentialWithRelations = UserCredential &
+export type UserCredentialsWithRelations = UserCredential &
   UserCredentialRelations;
