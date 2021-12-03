@@ -26,9 +26,7 @@ const signin = () => {
       <SignIn>
         <SignInDiv>
           <LeftDiv>
-            <LogoText>
-              Tra<span>Xpen$</span>e
-            </LogoText>
+            <LogoText>JWT Auth</LogoText>
             <FormDiv className='py-10'>
               <BoldText color='green'>Sign In</BoldText>
               <Underline />
@@ -74,14 +72,14 @@ const signin = () => {
   )
 }
 
-const SignIn = tw.div`flex flex-col items-center justify-center   w-full flex-1 px-20  text-center  `
-const SignInDiv = tw.div`bg-white rounded-2xl shadow-2xl flex w-full md:w-2/3 md:max-w-4xl md:flex-nowrap flex-wrap  border-2 border-yellow-500`
-const LeftDiv = tw.div`w-3/4 p-5 sm:w-full `
-const FormDiv = tw.div`py-10`
+const SignIn = tw.div`flex flex-col items-center justify-center  w-full flex-1 px-4 sm:px-20 md:px-20  text-center  `
+const SignInDiv = tw.div`bg-white rounded-2xl shadow-2xl flex w-full sm:w-2/3 sm:max-w-full md:w-4/5 md:max-w-5xl sm:flex-nowrap flex-wrap`
+const LeftDiv = tw.div`w-full sm:w-3/4 p-5 `
+const FormDiv = tw.div`sm:py-10`
 const Form = tw.form`flex flex-col items-center`
 const FormFootnote = tw.div`flex justify-between w-64 mb-5`
 const RightDiv = styled.div`
-  ${tw`w-2/5 bg-green-500 text-white rounded-tr-2xl rounded-br-2xl py-36 px-12`};
+  ${tw`sm:w-2/5 md:w-3/4 lg:w-2/5 w-full bg-green-500 text-white rounded-b-2xl sm:rounded-bl-none sm:rounded-tr-2xl sm:rounded-br-2xl py-36 px-12 md:px-5 lg:px-12`};
   p {
     ${tw`mb-10`};
   }

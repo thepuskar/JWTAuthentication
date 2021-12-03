@@ -6,9 +6,9 @@ import { PropType } from '@interfaces'
 export const Icons = (props: any) => {
   return (
     <IconDiv {...props}>
-      {props.icons.map((Icon: any) => {
+      {props.icons.map((Icon: any, i: number) => {
         return (
-          <IconBorder href='#'>
+          <IconBorder href='#' key={i}>
             <Icon className='text-sm' />
           </IconBorder>
         )

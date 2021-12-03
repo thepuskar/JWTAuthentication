@@ -20,7 +20,7 @@ export const Checkbox = (props: any) => {
   )
 }
 
-const InputDiv = tw.div`bg-gray-200 w-64 p-2 flex mb-3 rounded-md`
+const InputDiv = tw.div`bg-gray-200 sm:w-80 md:w-3/5 p-2 flex mb-3 rounded-md`
 
 const InputTag = tw.input`bg-gray-200 outline-none text-sm flex-1`
 
