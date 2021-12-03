@@ -32,5 +32,5 @@ export const Signin = () => {
   )
 }
 
-const Form = tw.form`flex flex-col items-center`
+export const Form = tw.form`flex flex-col items-center`
 const FormFootnote = tw.div`flex justify-between w-64 mb-5`

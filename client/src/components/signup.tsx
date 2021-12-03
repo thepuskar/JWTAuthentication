@@ -4,8 +4,8 @@ import tw from 'twin.macro'
 import { FaRegEnvelope, FaUser } from 'react-icons/fa'
 import { MdLockOutline } from 'react-icons/md'
 
-import { Input, Button, Checkbox } from '@components'
-import { Anchor } from '../../styles/style'
+import { Input, Button } from '@components'
+import { Form } from './signin'
 
 export const Signup = () => {
   return (
@@ -33,5 +33,3 @@ export const Signup = () => {
     </Form>
   )
 }
-
-const Form = tw.form`flex flex-col items-center`
