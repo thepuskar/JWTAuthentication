@@ -6,7 +6,7 @@ import { FaFacebook, FaGoogle, FaApple } from 'react-icons/fa'
 import tw from 'twin.macro'
 import styled from 'styled-components'
 
-import { Button, Icons, Signin } from '@components'
+import { Button, Icons, Signup } from '@components'
 
 import { MainDiv, LogoText, Underline, BoldText, Text } from '../styles/style'
 
@@ -15,7 +15,7 @@ const signin = () => {
   return (
     <MainDiv className='justify-center'>
       <Head>
-        <title>Sign In</title>
+        <title>Sign Up</title>
       </Head>
       <SignIn>
         <SignInDiv>
@@ -28,11 +28,11 @@ const signin = () => {
               <Text color='gray' className='my-3'>
                 or use your email or password
               </Text>
-              <Signin />
+              <Signup />
             </FormDiv>
           </LeftDiv>
           <RightDiv>
-            <BoldText>New here?</BoldText>
+            <BoldText>Already have account?</BoldText>
             <Underline />
             <p>
               Lorem ipsum dolor sit amet consectetur, adipisicing elit.
@@ -42,9 +42,9 @@ const signin = () => {
             <Button
               white={true}
               rounded={true}
-              text='Sign Up'
+              text='Sign In'
               onClick={() =>
-                router.push('/signup', undefined, { shallow: true })
+                router.push('/signin', undefined, { shallow: true })
               }
             />
           </RightDiv>

@@ -27,4 +27,7 @@ export const LogoText = styled.div`
   }
 `
 
-export const Underline = tw.div`border-2 w-10 border-green-500 inline-block mb-2`
+export const Underline = styled.div(({ color }: PropType) => [
+  color === 'green' ? tw`border-green-500` : tw`border-white`,
+  tw`border-2 w-10  inline-block mb-2`
+])
