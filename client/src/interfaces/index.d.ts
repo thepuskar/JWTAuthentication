@@ -3,3 +3,9 @@ export interface PropType {
   center?: boolean
   marginTopBtm?: boolean
 }
+
+export interface IFormValue {
+  username: string
+  email: string
+  password: string
+}

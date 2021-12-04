@@ -10,6 +10,7 @@ import { SignIn, SignInDiv, LeftDiv, FormDiv, RightDiv } from './signin'
 
 const signin = () => {
   const router = useRouter()
+
   return (
     <MainDiv className='justify-center'>
       <Head>

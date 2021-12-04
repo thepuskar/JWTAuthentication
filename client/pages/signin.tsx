@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+
 import { useRouter } from 'next/router'
 import { FaFacebook, FaGoogle, FaApple } from 'react-icons/fa'
 
@@ -54,12 +55,12 @@ const signin = () => {
   )
 }
 
-export const SignIn = tw.div`flex flex-col items-center justify-center  w-full flex-1 px-4 sm:px-20 md:px-20  text-center  `
+export const SignIn = tw.div`flex flex-col items-center justify-center  w-full flex-1 px-4 sm:px-20 md:px-2  text-center  `
 export const SignInDiv = tw.div`bg-white rounded-2xl shadow-2xl flex w-full sm:w-2/3 sm:max-w-full md:w-4/5 md:max-w-5xl sm:flex-nowrap flex-wrap`
 export const LeftDiv = tw.div`w-full sm:w-3/4 p-5 `
 export const FormDiv = tw.div`sm:py-10`
 export const RightDiv = styled.div`
-  ${tw`sm:w-2/5 md:w-3/4 lg:w-2/5 w-full bg-green-500 text-white rounded-b-2xl sm:rounded-bl-none sm:rounded-tr-2xl sm:rounded-br-2xl py-36 px-12 md:px-5 lg:px-12`};
+  ${tw`sm:w-2/5 md:w-2/4 lg:w-2/5 w-full bg-green-500 text-white rounded-b-2xl sm:rounded-bl-none sm:rounded-tr-2xl sm:rounded-br-2xl py-36 px-12 md:px-5 lg:px-12`};
   p {
     ${tw`mb-10`};
   }
