@@ -15,9 +15,12 @@ import {
   RestBindings,
   Send,
   SequenceHandler,
+  InvokeMiddleware,
 } from '@loopback/rest';
 const SequenceActions = RestBindings.SequenceActions;
 export class MySequence implements SequenceHandler {
+  @inject(SequenceActions.INVOKE_MIDDLEWARE, {optional: true})
+  protected invokeMiddleware: InvokeMiddleware = () => false;
   constructor(
     @inject(AuthenticationBindings.AUTH_ACTION)
     protected authenticateRequest: AuthenticateFn,
@@ -31,6 +34,9 @@ export class MySequence implements SequenceHandler {
   async handle(context: RequestContext) {
     try {
       const {request, response} = context;
+      const finished = await this.invokeMiddleware(context);
+      if (finished) return;
+
       const route = this.findRoute(request);
 
       await this.authenticateRequest(request);
