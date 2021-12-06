@@ -1,15 +1,16 @@
 import {inject} from '@loopback/core';
 import {
-  TokenServiceBindings,
-  MyUserService,
-  UserServiceBindings,
-  UserRepository,
   Credentials,
+  MyUserService,
+  TokenServiceBindings,
   User,
+  UserRepository,
+  UserServiceBindings,
 } from '@loopback/authentication-jwt';
 import {TokenService, authenticate} from '@loopback/authentication';
 import {SecurityBindings, UserProfile, securityId} from '@loopback/security';
 import {repository, model, property} from '@loopback/repository';
+
 import {
   get,
   getModelSchemaRef,
