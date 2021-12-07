@@ -11,5 +11,3 @@ export const Error = ({ msg }: Props) => {
     </span>
   )
 }
-
-// const ErrorMsg =

@@ -1,21 +1,27 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-
+import axios from 'axios'
+import { useRouter } from 'next/router'
 import { FaRegEnvelope, FaUser } from 'react-icons/fa'
 import { MdLockOutline } from 'react-icons/md'
 
 import { Form, Input, Button } from '@components'
 import { IFormValue } from '@interfaces'
+import { usePostRequest } from '@hooks'
 
 export const Signup = () => {
+  const router = useRouter()
   const {
     handleSubmit,
     register,
     formState: { errors }
   } = useForm<IFormValue>()
 
-  const userRegister = (data: IFormValue) => {
-    console.log(data)
+  const { postRequest, error } = usePostRequest()
+
+  const userRegister = async (postData: IFormValue) => {
+    await postRequest('signup', postData)
+    router.push('/signup')
   }
   return (
     <Form
