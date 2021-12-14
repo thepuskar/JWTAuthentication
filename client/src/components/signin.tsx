@@ -1,23 +1,32 @@
 import React from 'react'
 import tw from 'twin.macro'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
 
 import { FaRegEnvelope } from 'react-icons/fa'
 import { MdLockOutline } from 'react-icons/md'
 
-import { Input, Button, Checkbox } from '@components'
-import { Anchor } from '../../styles/style'
+import { Input, Button, Checkbox, SpinButton } from '@components'
+import { usePostRequest } from '@hooks'
 import { IFormValue } from '@interfaces'
+import { EMAIL_REGEX } from '@constants'
+import { Anchor } from '@styles'
 
 export const Signin = () => {
+  const router = useRouter()
   const {
     handleSubmit,
     register,
     formState: { errors }
   } = useForm<IFormValue>()
 
-  const userRegister = (data: IFormValue) => {
-    console.log(data)
+  const { postRequest, error, loading, data } = usePostRequest()
+
+  const userRegister = async (postData: IFormValue) => {
+    await postRequest('users/login', postData)
+    const token = await data?.token
+    document.cookie = `token=${token}`
+    !loading && router.push('/')
   }
   return (
     <Form
@@ -31,8 +40,7 @@ export const Signin = () => {
         {...register('email', {
           required: 'Email is required',
           pattern: {
-            value:
-              /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            value: EMAIL_REGEX,
             message: 'Please enter a valid email'
           }
         })}
@@ -56,7 +64,11 @@ export const Signin = () => {
         <Checkbox name='rememberMe' label='Remember Me' />
         <Anchor href='#'>Forgot Password?</Anchor>
       </FormFootnote>
-      <Button green={true} rounded={true} text='Sign In' type='submit' />
+      {loading ? (
+        <SpinButton text='Loading' />
+      ) : (
+        <Button green={true} rounded={true} text='Sign In' />
+      )}
     </Form>
   )
 }

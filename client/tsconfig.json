@@ -22,8 +22,9 @@
       "@interfaces": ["src/interfaces"],
       "@utils": ["src/utils"],
       "@hooks": ["src/hooks"],
-      "@styles/*": ["src/styles/*"],
-      "@styles": ["src/styles"]
+      "@styles/*": ["styles/*"],
+      "@styles": ["styles"],
+      "@constants": ["src/constants"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "twin.d.ts"],
