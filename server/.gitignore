@@ -3,6 +3,7 @@ logs
 *.log
 npm-debug.log*
 .env
+package.lock.json
 
 # Dependencies
 node_modules/
@@ -27,4 +28,8 @@ build/
 .eslintcache
 
 # Misc
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+>>>>>>> f7081bab8f3ee2fe535cac47a537e65955413b97
