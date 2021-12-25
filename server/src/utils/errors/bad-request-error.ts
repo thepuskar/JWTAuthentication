@@ -1,4 +1,4 @@
-import { CustomError } from './custome-error';
+import { CustomError } from './custom-error';
 import { ErrorMessage } from '../../interface';
 
 export class BadRequestError extends CustomError {
