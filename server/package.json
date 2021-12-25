@@ -12,6 +12,8 @@
     "eslint": "~8.4.1",
     "eslint-config-prettier": "~8.3.0",
     "prettier": "~2.5.1",
+    "prisma": "^3.7.0",
+    "ts-node": "^10.4.0",
     "rimraf": "~3.0.2",
     "tsutils": "~3.21.0",
     "typescript": "~4.5.3"
@@ -22,11 +24,15 @@
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.release.json",
     "build:watch": "tsc -w -p tsconfig.release.json",
-    "lint": "eslint . --ext .ts,.tsx"
+    "lint": "eslint . --ext .ts,.tsx",
+    "migration": "prisma migrate dev --name",
+    "migration:create": "prisma migration dev --create-only"
   },
   "author": "puskar adhikari <https://github.com/thepuskar>",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^3.7.0",
+    "jsonwebtoken": "^8.5.1",
     "tslib": "~2.3.1"
   },
   "volta": {
