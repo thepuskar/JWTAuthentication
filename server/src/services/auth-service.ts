@@ -61,3 +61,8 @@ export const UserLogin = async (req: any, res: any) => {
 
   return user;
 };
+
+export const UserLogOut = async (req: any) => {
+  req.session = null;
+  return {};
+};
