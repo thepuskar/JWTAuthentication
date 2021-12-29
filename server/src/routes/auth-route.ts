@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { validationRequestMiddleware } from '../middlewares';
+import { asyncHandler, validationRequestMiddleware } from '../middlewares';
 import { authValidator } from '../validators';
 
 import {
@@ -13,12 +13,22 @@ import { currentUserMiddleware } from '../middlewares/current-user-middleware';
 
 const router = express.Router();
 
-router.post('/register', authValidator, validationRequestMiddleware, register);
+router.post(
+  '/register',
+  authValidator,
+  validationRequestMiddleware,
+  asyncHandler(register),
+);
 
-router.post('/login', authValidator, validationRequestMiddleware, login);
+router.post(
+  '/login',
+  authValidator,
+  validationRequestMiddleware,
+  asyncHandler(login),
+);
 
-router.post('/logout', logout);
+router.post('/logout', asyncHandler(logout));
 
-router.get('/current-user', currentUserMiddleware, currentUser);
+router.get('/current-user', currentUserMiddleware, asyncHandler(currentUser));
 
 export default router;

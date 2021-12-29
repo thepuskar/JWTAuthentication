@@ -19,7 +19,6 @@ export const currentUserMiddleware: RequestHandler = async (
   _res,
   next,
 ) => {
-  console.log(req.session.Session.jwt);
   if (!req.session.Session?.jwt) {
     return next();
   }
