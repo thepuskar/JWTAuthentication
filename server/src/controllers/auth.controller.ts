@@ -32,7 +32,7 @@ export const login: RequestHandler = async (req, res) => {
 };
 
 export const logout: RequestHandler = async (req, res) => {
-  req.session = null;
+  req.session.Session = null;
   const user = {};
 
   res.status(200).json({

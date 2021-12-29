@@ -29,8 +29,6 @@ export const currentUserMiddleware: RequestHandler = async (
       process.env.JWT_KEY!,
     ) as IUSer;
     req.currentUser = payload;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
   next();
 };
