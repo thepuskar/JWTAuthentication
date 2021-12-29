@@ -14,7 +14,11 @@ declare global {
   }
 }
 
-export const currentUserMiddleware: RequestHandler = async (req, res, next) => {
+export const currentUserMiddleware: RequestHandler = async (
+  req,
+  _res,
+  next,
+) => {
   if (!req.session?.jwt) {
     return next();
   }
