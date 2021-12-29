@@ -41,3 +41,11 @@ export const logout: RequestHandler = async (req, res) => {
     user: user,
   });
 };
+
+export const currentUser: RequestHandler = async (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Current user',
+    user: req?.currentUser,
+  });
+};

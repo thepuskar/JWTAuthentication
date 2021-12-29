@@ -19,12 +19,16 @@ export const currentUserMiddleware: RequestHandler = async (
   _res,
   next,
 ) => {
-  if (!req.session?.jwt) {
+  console.log(req.session.Session.jwt);
+  if (!req.session.Session?.jwt) {
     return next();
   }
 
   try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as IUSer;
+    const payload = jwt.verify(
+      req.session.Session.jwt,
+      process.env.JWT_KEY!,
+    ) as IUSer;
     req.currentUser = payload;
   } catch (error) {
     console.log(error);
