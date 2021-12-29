@@ -1,36 +1,54 @@
-import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
-import { BadRequestError, PasswordHash } from '../utils';
+import {
+  BadRequestError,
+  PasswordHash,
+  PasswordCompare,
+  TokenGenerator,
+} from '../utils';
 
 const prisma = new PrismaClient();
 
-export const UserRegister = async (req: any, res: any) => {
-  const { name, email, password } = req.body;
+type RegisterUserType = Pick<User, 'name' | 'email' | 'password'>;
 
+export const UserRegister = async ({
+  name,
+  email,
+  password,
+}: RegisterUserType) => {
   const existingUser = await prisma.user.findUnique({
     where: {
-      email: email,
+      email,
     },
   });
 
   if (existingUser) {
     throw new BadRequestError('Email already in use');
   }
-  const hashPassword = await PasswordHash(password);
 
   const user = await prisma.user.create({
-    data: { name, email, password: hashPassword },
+    data: { name, email, password: await PasswordHash(password) },
   });
 
-  const userJwt = jwt.sign(
-    { id: user.id, email: user.email },
-    process.env.JWT_KEY!,
-  );
+  const token = TokenGenerator(user.id, user.email);
+  return { user, token };
+};
 
-  res.session = {
-    jwt: userJwt,
-  };
+type LoginUserType = Pick<User, 'email' | 'password'>;
 
-  return user;
+export const UserLogin = async ({ email, password }: LoginUserType) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!existingUser) throw new BadRequestError('Invalid credentials');
+
+  const valid = await PasswordCompare(existingUser.password, password);
+
+  if (!valid) throw new BadRequestError('Invalid credentials');
+
+  const token = TokenGenerator(existingUser.id, existingUser.email);
+
+  const { password: userPassword, ...user } = existingUser;
+
+  return { user, token };
 };
