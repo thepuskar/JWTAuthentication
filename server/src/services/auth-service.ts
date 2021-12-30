@@ -1,4 +1,5 @@
 import { PrismaClient, User } from '@prisma/client';
+import { IUser } from '../interface';
 
 import {
   BadRequestError,
@@ -51,4 +52,31 @@ export const UserLogin = async ({ email, password }: LoginUserType) => {
   const { password: userPassword, ...user } = existingUser;
 
   return { user, token };
+};
+
+export const PasswordReset = async ({
+  email,
+  password,
+  newPassword,
+}: IUser) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!existingUser) {
+    throw new BadRequestError('User Does Not Exist');
+  }
+  const valid = await PasswordCompare(existingUser.password, password);
+
+  if (!valid) throw new BadRequestError('Invalid credentials');
+
+  if (password === newPassword)
+    throw new BadRequestError(
+      'New Password should not be same as old password',
+    );
+
+  await prisma.user.update({
+    where: { id: existingUser.id },
+    data: { password: await PasswordHash(newPassword) },
+  });
+  return existingUser;
 };

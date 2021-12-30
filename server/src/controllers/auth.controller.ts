@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { UserRegister, UserLogin } from '../services';
+import { UserRegister, UserLogin, PasswordReset } from '../services';
 
 export const register: RequestHandler = async (req, res) => {
   const { user, token } = await UserRegister(req.body);
@@ -47,5 +47,15 @@ export const currentUser: RequestHandler = async (req, res) => {
     success: true,
     message: 'Current user',
     user: req?.currentUser,
+  });
+};
+
+export const passwordReset: RequestHandler = async (req, res) => {
+  const user = await PasswordReset(req.body);
+
+  res.status(200).json({
+    success: true,
+    message: 'Password reset successfully',
+    user,
   });
 };
