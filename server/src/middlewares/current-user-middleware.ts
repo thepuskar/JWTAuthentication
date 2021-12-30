@@ -19,7 +19,6 @@ export const currentUserMiddleware: RequestHandler = async (
   _res,
   next,
 ) => {
-  console.log(req.session.Session.jwt);
   if (!req.session.Session?.jwt) {
     return next();
   }
@@ -30,8 +29,6 @@ export const currentUserMiddleware: RequestHandler = async (
       process.env.JWT_KEY!,
     ) as IUSer;
     req.currentUser = payload;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
   next();
 };

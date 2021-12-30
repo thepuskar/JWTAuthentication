@@ -1,24 +1,54 @@
 import express from 'express';
 
-import { validationRequestMiddleware } from '../middlewares';
-import { authValidator } from '../validators';
+import {
+  asyncHandler,
+  validationRequestMiddleware,
+  requireAuth,
+} from '../middlewares';
+import {
+  authRegisterValidator,
+  authLoginValidator,
+  authResetPasswordValidator,
+} from '../validators';
 
 import {
   register,
   login,
   logout,
   currentUser,
+  passwordReset,
+  fotgotPassword,
 } from '../controllers/auth.controller';
 import { currentUserMiddleware } from '../middlewares/current-user-middleware';
 
 const router = express.Router();
 
-router.post('/register', authValidator, validationRequestMiddleware, register);
+router.post(
+  '/register',
+  authRegisterValidator,
+  validationRequestMiddleware,
+  asyncHandler(register),
+);
 
-router.post('/login', authValidator, validationRequestMiddleware, login);
+router.post(
+  '/login',
+  authLoginValidator,
+  validationRequestMiddleware,
+  asyncHandler(login),
+);
 
-router.post('/logout', logout);
+router.post('/logout', asyncHandler(logout));
 
-router.get('/current-user', currentUserMiddleware, currentUser);
+router.get('/current-user', currentUserMiddleware, asyncHandler(currentUser));
+
+router.post(
+  '/reset-password',
+  authResetPasswordValidator,
+  currentUserMiddleware,
+  requireAuth,
+  asyncHandler(passwordReset),
+);
+
+router.post('/fotgot-password', asyncHandler(fotgotPassword));
 
 export default router;
