@@ -17,6 +17,7 @@ import {
   logout,
   currentUser,
   passwordReset,
+  fotgotPassword,
 } from '../controllers/auth.controller';
 import { currentUserMiddleware } from '../middlewares/current-user-middleware';
 
@@ -47,5 +48,7 @@ router.post(
   requireAuth,
   asyncHandler(passwordReset),
 );
+
+router.post('/fotgot-password', asyncHandler(fotgotPassword));
 
 export default router;

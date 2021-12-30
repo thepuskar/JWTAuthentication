@@ -6,6 +6,7 @@ import {
   PasswordHash,
   PasswordCompare,
   TokenGenerator,
+  sendMail,
 } from '../utils';
 
 const prisma = new PrismaClient();
@@ -79,4 +80,18 @@ export const PasswordReset = async ({
     data: { password: await PasswordHash(newPassword) },
   });
   return existingUser;
+};
+
+export const ForgotPassword = async ({ email }: IUser) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!existingUser) {
+    throw new BadRequestError('User Does Not Exist');
+  }
+  const token = TokenGenerator(existingUser.id, existingUser.email);
+
+  const link = `${process.env.BASE_URL}/forgot-password-reset/${token}/`;
+  await sendMail(existingUser.email, 'Password Reset', link);
+  return { message: 'Password reset email sent successfully' };
 };
