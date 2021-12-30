@@ -91,7 +91,7 @@ export const ForgotPassword = async ({ email }: IUser) => {
   }
   const token = TokenGenerator(existingUser.id, existingUser.email);
 
-  const link = `${process.env.BASE_URL}/forgot-password-reset/${token}/`;
+  const link = `${process.env.BASE_URL}/forgot-password-reset/${token}/${existingUser.id}`;
   await sendMail(existingUser.email, 'Password Reset', link);
   return { message: 'Password reset email sent successfully' };
 };
