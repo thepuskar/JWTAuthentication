@@ -6,8 +6,12 @@ import cookieSession from 'cookie-session';
 import { errorHandlerMiddleware } from './middlewares';
 import { NotFoundError } from './utils';
 import routes from './routes';
+import { join } from 'path';
 
 const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', join(__dirname, 'views'));
 
 app.use(json());
 app.use(
