@@ -5,6 +5,7 @@ import {
   PasswordReset,
   ForgotPassword,
   verifyEmail,
+  ResetForgotPassword,
 } from '../services';
 
 export const register: RequestHandler = async (req, res) => {
@@ -72,6 +73,15 @@ export const fotgotPassword: RequestHandler = async (req, res) => {
   res.status(200).json({
     success: true,
     message: `Password reset token email send to your email: ${email}`,
+  });
+};
+
+export const resetForgotPassword: RequestHandler = async (req, res) => {
+  await ResetForgotPassword(req.body);
+
+  res.status(200).json({
+    success: true,
+    message: 'Password reset successfully',
   });
 };
 

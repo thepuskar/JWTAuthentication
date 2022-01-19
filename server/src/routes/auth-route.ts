@@ -11,6 +11,7 @@ import {
   authLoginValidator,
   authResetPasswordValidator,
   verifyEmailValidator,
+  forgotPasswordResetPasswordValidator,
 } from '../validators';
 
 import {
@@ -20,6 +21,7 @@ import {
   currentUser,
   passwordReset,
   fotgotPassword,
+  resetForgotPassword,
   emailVerification,
 } from '../controllers/auth.controller';
 
@@ -53,6 +55,13 @@ router.post(
 );
 
 router.post('/fotgot-password', asyncHandler(fotgotPassword));
+
+router.post(
+  '/fotgot-password-reset',
+  forgotPasswordResetPasswordValidator,
+  validationRequestMiddleware,
+  asyncHandler(resetForgotPassword),
+);
 
 router.post(
   '/confirm-email',

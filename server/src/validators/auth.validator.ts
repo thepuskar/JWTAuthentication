@@ -39,6 +39,12 @@ export const authResetPasswordValidator = [
   passwordValidator('newPassword'),
 ];
 
+export const forgotPasswordResetPasswordValidator = [
+  emailValidator,
+  passwordValidator('password'),
+  tokenValidator('passwordResetToken'),
+];
+
 export const verifyEmailValidator = [
   emailValidator,
   tokenValidator('activationToken'),

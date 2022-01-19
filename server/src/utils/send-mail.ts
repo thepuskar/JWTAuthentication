@@ -4,7 +4,7 @@ import { renderFile } from 'ejs';
 
 interface IOptions {
   user: object;
-  url: string;
+  url?: string;
   template: string;
   date?: Date;
   email: string;

@@ -120,13 +120,55 @@ export const ForgotPassword = async ({ email }: IUser) => {
 
   await sendMail({
     email,
-    subject: 'Forgot Password reset token!! (wull expire in 20 minutes)',
+    subject: 'Forgot Password reset token!! (will expire in 20 minutes)',
     template: 'forgotPassword.ejs',
     url: link,
     user: existingUser,
   });
 
   return existingUser.email;
+};
+
+type ForgotPasswordResetType = Pick<
+  User,
+  'email' | 'password' | 'passwordResetToken'
+>;
+
+export const ResetForgotPassword = async ({
+  email,
+  password,
+  passwordResetToken,
+}: ForgotPasswordResetType) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (existingUser.passwordResetExpires > Date.now()) {
+    throw new BadRequestError('Token has expired');
+  }
+  if (!existingUser) {
+    throw new BadRequestError('User Does Not Exist');
+  }
+  if (existingUser.passwordResetToken !== passwordResetToken)
+    throw new BadRequestError('Invalid token');
+
+  await prisma.user.update({
+    where: { id: existingUser.id },
+    data: {
+      password: await PasswordHash(password),
+      passwordResetToken: null,
+      passwordResetExpires: null,
+    },
+  });
+
+  await sendMail({
+    email,
+    date: new Date(),
+    subject: 'Password reset Successful.',
+    template: 'resetPassword.ejs',
+    user: existingUser,
+  });
+
+  return existingUser;
 };
 
 type EmailVerifyType = Pick<User, 'email' | 'activationToken'>;
