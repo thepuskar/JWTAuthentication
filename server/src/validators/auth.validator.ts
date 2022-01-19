@@ -12,6 +12,16 @@ const passwordValidator = (password: string) =>
     .isLength({ min: 4 })
     .withMessage('Password must be enter');
 
+const splitText = (text: string) => {
+  const str = text.replace(/([A-Z])/g, ' $1');
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const tokenValidator = (token: string) =>
+  body(token)
+    .notEmpty()
+    .withMessage(`${splitText(token)} is required`);
+
 export const authRegisterValidator = [
   nameValidator,
   emailValidator,
@@ -27,4 +37,15 @@ export const authResetPasswordValidator = [
   emailValidator,
   passwordValidator('password'),
   passwordValidator('newPassword'),
+];
+
+export const forgotPasswordResetPasswordValidator = [
+  emailValidator,
+  passwordValidator('password'),
+  tokenValidator('passwordResetToken'),
+];
+
+export const verifyEmailValidator = [
+  emailValidator,
+  tokenValidator('activationToken'),
 ];

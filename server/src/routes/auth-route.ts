@@ -4,11 +4,14 @@ import {
   asyncHandler,
   validationRequestMiddleware,
   requireAuth,
+  currentUserMiddleware,
 } from '../middlewares';
 import {
   authRegisterValidator,
   authLoginValidator,
   authResetPasswordValidator,
+  verifyEmailValidator,
+  forgotPasswordResetPasswordValidator,
 } from '../validators';
 
 import {
@@ -18,8 +21,9 @@ import {
   currentUser,
   passwordReset,
   fotgotPassword,
+  resetForgotPassword,
+  emailVerification,
 } from '../controllers/auth.controller';
-import { currentUserMiddleware } from '../middlewares/current-user-middleware';
 
 const router = express.Router();
 
@@ -44,11 +48,26 @@ router.get('/current-user', currentUserMiddleware, asyncHandler(currentUser));
 router.post(
   '/reset-password',
   authResetPasswordValidator,
+  validationRequestMiddleware,
   currentUserMiddleware,
   requireAuth,
   asyncHandler(passwordReset),
 );
 
 router.post('/fotgot-password', asyncHandler(fotgotPassword));
+
+router.post(
+  '/fotgot-password-reset',
+  forgotPasswordResetPasswordValidator,
+  validationRequestMiddleware,
+  asyncHandler(resetForgotPassword),
+);
+
+router.post(
+  '/confirm-email',
+  verifyEmailValidator,
+  validationRequestMiddleware,
+  asyncHandler(emailVerification),
+);
 
 export default router;
