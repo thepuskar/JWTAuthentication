@@ -7,6 +7,8 @@ import {
   PasswordCompare,
   TokenGenerator,
   sendMail,
+  genPasswordResetToken,
+  genAccountActivationToken,
 } from '../utils';
 
 const prisma = new PrismaClient();
@@ -28,8 +30,23 @@ export const UserRegister = async ({
     throw new BadRequestError('Email already in use');
   }
 
+  const activationToken = genAccountActivationToken();
+
   const user = await prisma.user.create({
-    data: { name, email, password: await PasswordHash(password) },
+    data: {
+      name,
+      email,
+      password: await PasswordHash(password),
+      activationToken,
+    },
+  });
+
+  await sendMail({
+    user,
+    url: `${process.env.BASE_URL}/confirm-email/${activationToken}`,
+    template: 'signupEmail.ejs',
+    email: user.email,
+    subject: 'Welcome to hyper auth! Confirm your email',
   });
 
   const token = TokenGenerator(user.id, user.email);
@@ -89,9 +106,51 @@ export const ForgotPassword = async ({ email }: IUser) => {
   if (!existingUser) {
     throw new BadRequestError('User Does Not Exist');
   }
-  const token = TokenGenerator(existingUser.id, existingUser.email);
+  const { token, tokenExpiration } = genPasswordResetToken();
 
-  const link = `${process.env.BASE_URL}/forgot-password-reset/${token}/${existingUser.id}`;
-  await sendMail(existingUser.email, 'Password Reset', link);
-  return { message: 'Password reset email sent successfully' };
+  await prisma.user.update({
+    where: { id: existingUser.id },
+    data: {
+      passwordResetToken: token,
+      passwordResetExpires: tokenExpiration,
+    },
+  });
+
+  const link = `${process.env.BASE_URL}/forgot-password-reset/${token}`;
+
+  await sendMail({
+    email,
+    subject: 'Forgot Password reset token!! (wull expire in 20 minutes)',
+    template: 'forgotPassword.ejs',
+    url: link,
+    user: existingUser,
+  });
+
+  return existingUser.email;
+};
+
+type EmailVerifyType = Pick<User, 'email' | 'activationToken'>;
+
+export const verifyEmail = async ({
+  email,
+  activationToken,
+}: EmailVerifyType) => {
+  console.log(email, activationToken);
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (!existingUser) {
+    throw new BadRequestError('User Does Not Exist');
+  }
+  if (existingUser.activationToken !== activationToken) {
+    throw new BadRequestError('Invalid token');
+  }
+  await prisma.user.update({
+    where: { id: existingUser?.id },
+    data: {
+      activated: true,
+      activationToken: null,
+    },
+  });
+  return { message: 'Email verified successfully' };
 };

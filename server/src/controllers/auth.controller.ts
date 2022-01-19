@@ -4,6 +4,7 @@ import {
   UserLogin,
   PasswordReset,
   ForgotPassword,
+  verifyEmail,
 } from '../services';
 
 export const register: RequestHandler = async (req, res) => {
@@ -15,7 +16,7 @@ export const register: RequestHandler = async (req, res) => {
 
   res.status(201).json({
     success: true,
-    message: 'User created successfully',
+    message: 'User created successfully and activation token was sent to email',
     user,
     token,
   });
@@ -66,7 +67,16 @@ export const passwordReset: RequestHandler = async (req, res) => {
 };
 
 export const fotgotPassword: RequestHandler = async (req, res) => {
-  const { message } = await ForgotPassword(req.body);
+  const email = await ForgotPassword(req.body);
+
+  res.status(200).json({
+    success: true,
+    message: `Password reset token email send to your email: ${email}`,
+  });
+};
+
+export const emailVerification: RequestHandler = async (req, res) => {
+  const { message } = await verifyEmail(req.body);
 
   res.status(200).json({
     success: true,
