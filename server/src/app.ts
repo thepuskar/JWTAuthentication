@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
+import cors from 'cors';
 
 import { errorHandlerMiddleware } from './middlewares';
 import { NotFoundError } from './utils';
@@ -10,6 +11,7 @@ import { join } from 'path';
 
 const app = express();
 
+app.use(cors());
 app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
 
