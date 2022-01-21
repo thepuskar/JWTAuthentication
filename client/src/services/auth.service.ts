@@ -9,18 +9,22 @@ export const register = (username: String, email: String, password: String) => {
 }
 
 export const login = async (email: String, password: String) => {
-  const res = await Axios.post('users/login', {
-    email,
-    password
-  })
-  if (res?.data?.token) {
-    const user = {
-      token: res.data.token,
-      user: res.data.user
+  try {
+    const res = await Axios.post('users/login', {
+      email,
+      password
+    })
+    if (res?.data?.token) {
+      const user = {
+        token: res.data.token,
+        user: res.data.user
+      }
+      localStorage.setItem('user', JSON.stringify(user))
     }
-    localStorage.setItem('user', JSON.stringify(user))
+    return res?.data
+  } catch (err: any) {
+    return err?.response?.data?.errors[0].message ?? 'Something went wrong'
   }
-  return res?.data
 }
 
 export const logout = () => {
@@ -28,9 +32,11 @@ export const logout = () => {
 }
 
 export const getCurrentUser = () => {
-  const user = localStorage.getItem('user')
-  if (user) {
-    return JSON.parse(user)
+  if (typeof window !== 'undefined') {
+    const user = localStorage.getItem('user')
+    if (user) {
+      return JSON.parse(user)
+    }
+    return null
   }
-  return null
 }
