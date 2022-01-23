@@ -1,8 +1,9 @@
-import { getCurrentUser } from './auth.service'
+import { getLocalUser } from './auth.service'
+
 export const authHeader = () => {
-  const user = getCurrentUser()
+  const user = getLocalUser()
   if (user && user.token) {
-    return { Cookie: user.token }
+    return { authorization: 'Bearer ' + user.token }
   }
   return {}
 }
