@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
-import cookieSession from 'cookie-session';
 import cors from 'cors';
 
 import { errorHandlerMiddleware } from './middlewares';
@@ -16,12 +15,6 @@ app.set('view engine', 'ejs');
 app.set('views', join(__dirname, 'views'));
 
 app.use(json());
-app.use(
-  cookieSession({
-    signed: false,
-    secure: false,
-  }),
-);
 
 app.use(
   '/api/',
