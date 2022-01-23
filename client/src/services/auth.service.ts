@@ -31,7 +31,7 @@ export const logout = () => {
   localStorage.removeItem('user')
 }
 
-export const getCurrentUser = () => {
+export const getLocalUser = () => {
   if (typeof window !== 'undefined') {
     const user = localStorage.getItem('user')
     if (user) {

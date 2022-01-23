@@ -8,13 +8,13 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 
 import { Button, Icons, Signin } from '@components'
-import { getCurrentUser } from '@services'
+import { getLocalUser } from '@services'
 
 import { MainDiv, LogoText, Underline, BoldText, Text } from '../styles/style'
 
 const signin = () => {
   const router = useRouter()
-  const user = getCurrentUser()
+  const user = getLocalUser()
   if (user) router.push('/')
 
   return (
