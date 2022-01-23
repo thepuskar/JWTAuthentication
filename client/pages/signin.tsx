@@ -8,11 +8,15 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 
 import { Button, Icons, Signin } from '@components'
+import { getLocalUser } from '@services'
 
 import { MainDiv, LogoText, Underline, BoldText, Text } from '../styles/style'
 
 const signin = () => {
   const router = useRouter()
+  const user = getLocalUser()
+  if (user) router.push('/')
+
   return (
     <MainDiv className='justify-center'>
       <Head>

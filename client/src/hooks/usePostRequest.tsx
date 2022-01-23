@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Axios } from '@utils'
 
 export function usePostRequest() {
@@ -12,8 +12,8 @@ export function usePostRequest() {
       const response = await Axios.post(url, body)
       setData(response.data)
       setLoading(false)
-    } catch (error) {
-      setError(error)
+    } catch (err: any) {
+      setError(err.response ? err.response.data.errors[0].message : err)
       setLoading(false)
     }
   }
