@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
+import { NotAuthorizedError } from '../utils';
 
 interface IUSer {
   id: string;
@@ -19,16 +20,24 @@ export const currentUserMiddleware: RequestHandler = async (
   _res,
   next,
 ) => {
-  if (!req.session.Session?.jwt) {
-    return next();
+  let token: String;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer ')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
   }
-
+  if (!token) {
+    return next(new NotAuthorizedError());
+  }
   try {
     const payload = jwt.verify(
-      req.session.Session.jwt,
+      req.headers.authorization.split(' ')[1],
       process.env.JWT_KEY!,
     ) as IUSer;
     req.currentUser = payload;
-  } catch (error) {}
+  } catch (error) {
+    console.log('error', error);
+  }
   next();
 };

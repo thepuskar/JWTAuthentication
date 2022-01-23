@@ -43,7 +43,7 @@ export const UserRegister = async ({
 
   await sendMail({
     user,
-    url: `${process.env.BASE_URL}/confirm-email/${activationToken}`,
+    url: `${process.env.BASE_URL}/confirm-email?email=${email}&token=${activationToken}`,
     template: 'signupEmail.ejs',
     email: user.email,
     subject: 'Welcome to hyper auth! Confirm your email',
